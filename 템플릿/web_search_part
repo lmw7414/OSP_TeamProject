@@ -1,0 +1,4 @@
+<body>
+	<input type="text" class="input-search">
+	<input type="submit" class= "input-search-submit" value="search">
+</body>
