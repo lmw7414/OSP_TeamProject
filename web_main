@@ -5,8 +5,8 @@
   <style>
 
      ul{
-	list-style-type:none;
-	position: fixed;
+   list-style-type:none;
+   position: fixed;
     left:20px; top:50px;
 
 
@@ -14,40 +14,41 @@
 }
 
 .navi > li{
-	float: left;
+   float: left;
 
 
 }
 
 .navi > li > a{
-	padding: 10px 50px;
-	background:rgb(219,193,193)
+   padding: 10px 170px;
+   background:rgb(219,193,193)
 
 }
 
 li a{
-	background-color: #39f;
+   background-color: #39f;
     text-decoration: none;
     font-weight: bold;
     color: #000000;
     display: block;
     text-align: center;
     padding: 10px;
-    background:gray
+    background:rgb(219,193,193)
+
 
 }
 
 li a:hover{
-	background-color:light-gray;
-	color: white;
+   background-color:light-gray;
+   color: white;
 }
 
-.navi li ul{	/* << li 하위의 ul = 서브메뉴 */
-	display: none;
+.navi li ul{   /* << li 하위의 ul = 서브메뉴 */
+   display: none;
 }
 
 .navi li:hover ul{
-	display: block;
+   display: block;
 }
 
   table.fixed{position: fixed; 
@@ -70,7 +71,7 @@ border-color:gray;
 }
 
 .block-color-gray_background {
-	background: rgb(235,236,237);
+   background: rgb(235,236,237);
              width: 385;
 
 }
