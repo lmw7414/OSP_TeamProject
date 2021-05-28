@@ -1,3 +1,4 @@
+
 <html>
  <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -6,7 +7,7 @@
 
      ul{
    list-style-type:none;
-   position: fixed;
+   position: absolute;
     left:20px; top:50px;
 
 
@@ -51,7 +52,7 @@ li a:hover{
    display: block;
 }
 
-  table.fixed{position: fixed; 
+  table.fixed{position: absolute;
 left:1480px; top:160px;
 border-style:solid;
 border-color:white;
@@ -76,11 +77,11 @@ border-color:gray;
 
 }
 .location{
-position:fixed;
+position:static;
 left:1640px;
 }
 
-.my-button{position: fixed;
+.my-button{position: absolute;
 left:1485px; top:730px;
    background: light-gray;
    width: 360;
@@ -93,6 +94,8 @@ left:1485px; top:730px;
 display:inline-block;
 cursor:pointer;
 border-radius: 10px;
+position: absolute;
+left:145px; top:110px;
 }
 .button:active{
 background-color: rgb(193,156,231);
@@ -100,19 +103,19 @@ box-shadow:0 5px #666;
 transform: translateY(4px);
 }
 .map{
-position: fixed;
+position: absolute;
 left:60px; top:130px;
 border-color: #E3CEF6;
 border-width: 3px;
 border-style: inset;
 }
 .status_table{
-position: fixed;
+position: absolute;
 left:60px; top:755px;
 }
 
 .price_index{
-position: fixed;
+position: absolute;
 left:500px; top:130px;
 border-color: #E3CEF6;
 border-width: 3px;
@@ -120,7 +123,7 @@ border-style: inset;
 }
 
 .product1{
-position: fixed;
+position: absolute;
 left:500px; top:400px;
 border-color: #E3CEF6;
 border-width: 3px;
@@ -128,7 +131,7 @@ border-style: solid;
 }
 
 .product2{
-position: fixed;
+position: absolute;
 left:800px; top:400px;
 border-color: #E3CEF6;
 border-width: 3px;
@@ -136,7 +139,7 @@ border-style: solid;
 }
 
 .product3{
-position: fixed;
+position: absolute;
 left:1100px; top:400px;
 border-color: #E3CEF6;
 border-width: 3px;
@@ -144,7 +147,7 @@ border-style: solid;
 }
 
 .path{
-position: fixed;
+position: absolute;
 left:500px; top:730px;
 border-color: #E3CEF6;
 border-width: 3px;
@@ -174,6 +177,10 @@ border-style: inset;
    ABOUT &nbsp COVID - 19
    </span>
   </p>
+
+
+  <div style="overflow:hidden ; width:1910px; height:1000px;">
+  </div>
 
       <ul class="navi">
         <li><a href="#">1</a></li>
