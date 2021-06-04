@@ -178,6 +178,7 @@ background-color: #fbfbfd;
 }
 
 
+
   </style>
      <link rel="stylesheet" href="button.css">
 
@@ -277,14 +278,15 @@ NEWS 검색<input type="text" class="input-search" size="70">
    <img src="images" alt="코로나 확진 상세 경로" width="1230" height="200">
   </div>
 
-
   <div class = "my-button">
   <h2 style = "font-size=x-large" >
     &nbsp &nbsp &nbsp 나의 코로나 방역 수칙
       <br>&nbsp &nbsp &nbsp &nbsp 점수 알아보러 가기
     </h2>
     <div class = "location">
-<button class = "button">
+       <!-- <button id="myButton" class="float-left submit-button" >Home</button> 다른 html로 넘기는 것-->
+<button class = "button" onclick="window.open('http://webtong.kr') ">
+
     <h2 style = "font-size=large" >
     QUIZ
     </h2>
@@ -316,3 +318,9 @@ NEWS 검색<input type="text" class="input-search" size="70">
 
  </body>
 </html>
+
+<script type="text/javascript">
+    document.getElementById("myButton").onclick = function () {
+        location.href = "quizz.html";
+    };
+</script>
