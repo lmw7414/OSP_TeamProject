@@ -53,32 +53,98 @@ from flask import jsonify
 import urllib3
 
 app = Flask(__name__)
-#서현이
-@app.route('/daegu_path')
-def daegu_path():
 
-	url = 'http://covid19.daegu.go.kr/00937400.html'
-	res = requests.get(url)
+# 서현
+@app.route('/daegu_path', methods=['GET'])
+def path_daegu():
+    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+    url = 'http://covid19.daegu.go.kr/00937400.html'
+    res = requests.get(url)
 
-	html = bs(res.content, "html.parser")
+    html = bs(res.content, "html.parser")
 
-	daegu_all = html.find('tbody').get_text().rstrip()
-	daegu_split = daegu_all.split("\n\n\n\n")
-	#print(daegu_split)
+    daegu_all = html.find('tbody').get_text().rstrip()
+    daegu_split = daegu_all.split("\n\n\n\n")
+    # print(daegu_split)
 
-	table = html.find_all('th')
-	index = []
-	for i in range(len(table)):
-		index.append(table[i].get_text())
+    table = html.find_all('th')
+    index = []
+    for i in range(len(table)):
+        index.append(table[i].get_text())
     
-	daegu_path = pd.DataFrame(columns=index)
-	for i in range(1,len(daegu_split)):
-		content = daegu_split[i].split("\n\n")
-		#print(content)
-		daegu_path.loc[len(daegu_path)] = content
-	#print(daegu_path)
-	return render_template('/daegu_path.html',df = daegu_path.to_html())
+    daegu_path = pd.DataFrame(columns=index)
+    for i in range(1,len(daegu_split)):
+        content = daegu_split[i].split("\n\n")
+        # print(content)
+        daegu_path.loc[len(daegu_path)] = content
 
+    path = daegu_path.to_html(justify='center', index=False)
+    with open('templates/path_daegu.html', 'w') as f:
+        f.write(html_string.format(city="대구광역시", style_1=style_1, style_2=style_2, path=path))
+
+    return render_template('path_daegu.html')
+
+@app.route('/gyeongsan_path', methods=['GET'])
+def path_gs():
+    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+    url = 'https://www.gbgs.go.kr/programs/coronaMoveNew/coronaMoveNew.do'
+    res = requests.get(url)
+
+    html = bs(res.content, "html.parser")
+
+    index = html.find('tr').get_text().strip().split("\n")
+    # print(index)
+
+    gs_all = html.find_all('tbody')
+    gs_path = pd.DataFrame(columns=index)
+    for i in range(len(gs_all)):
+        split = "".join(gs_all[i].get_text().lstrip()).split("\n")
+        content = []
+        for j in range(len(index)):
+            if split[j] == "":
+                content.append("-")
+            else:
+                content.append(split[j])
+        # print(content)
+        gs_path.loc[len(gs_path)] = content
+
+    path = gs_path.to_html(justify='center', index=False)
+    with open('templates/path_gs.html', 'w') as f:
+        f.write(html_string.format(city="경산시", style_1=style_1, style_2=style_2, path=path))
+
+    return render_template('path_gs.html')
+
+@app.route('/pohang_path', methods=['GET'])
+def path_pohang():
+    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+    url = 'https://www.pohang.go.kr/COVID-19/9568/subview.do'
+    res = requests.get(url, verify=False)
+
+    html = bs(res.content, "html.parser")
+
+    index = html.find('tr').get_text().strip().split("\n")
+    # print(index)
+
+    ph_all = html.find_all('tr')
+   
+    ph_path = pd.DataFrame(columns=index)
+    for i in range(1, len(ph_all)):
+        split = "".join(ph_all[i].get_text().lstrip()).split("\n")
+        content = []
+        for j in range(len(index)):
+            if split[j] == "":
+                content.append("-")
+            else:
+                content.append(split[j])
+        # print(content)
+        ph_path.loc[len(ph_path)] = content
+
+    path = ph_path.to_html(justify='center', index=False)
+    with open('templates/path_pohang.html', 'w') as f:
+        f.write(html_string.format(city="포항시", style_1=style_1, style_2=style_2, path=path))
+
+    return render_template('path_pohang.html')
+# ----서현 추가----
 
 
 @app.route('/corona_product_list')
@@ -458,4 +524,3 @@ def index():
 
 if __name__ == '__main__':
 	app.run()
-
