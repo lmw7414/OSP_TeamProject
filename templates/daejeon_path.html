@@ -1,7 +1,8 @@
 <html>
-<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>Corona</title>
-    <style>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>대전확진자 경로</title>
+  <style>
 /* webkit printing magic: print all background colors */
 html {
 	-webkit-print-color-adjust: exact;
@@ -630,29 +631,29 @@ blockquote {
 </style>
 </head>
 <body>
-<article id="c71dba4e-c91a-4c4f-b6df-051c70d488b7" class="page sans">
-    <header><h1 class="page-title">코로나</h1></header>
-    <div class="page-body">
-        
-	<ul id="a709cb60-8885-4d21-81f7-e223b4c29a53" class="bulleted-list">
-            <li><a href="/find_word"> 크롤링하기</a></li>
-        </ul>
-	<ul id="a709cb60-8885-4d21-81f7-e223b4c29a53" class="bulleted-list">
-            <li><a href="/news_list"> 네이버뉴스 리스트(코로나)4</a></li>
-        </ul>
-	<ul id="a709cb60-8885-4d21-81f7-e223b4c29a53" class="bulleted-list">
-            <li><a href="/daegu_path"> 대구확진자 이동경로</a></li>
-        </ul>
-	<ul id="a709cb60-8885-4d21-81f7-e223b4c29a53" class="bulleted-list">
-            <li><a href="/busan_path"> 부산확진자 이동경로</a></li>
-        </ul>
-	<ul id="a709cb60-8885-4d21-81f7-e223b4c29a53" class="bulleted-list">
-            <li><a href="/daejeon_path"> 대전확진자 이동경로</a></li>
-        </ul>
-	<ul id="a709cb60-8885-4d21-81f7-e223b4c29a53" class="bulleted-list">
-            <li><a href="/corona_product_list"> 코로나 상품</a></li>
-        </ul>
-    </div>
+<article id="9e0cda3e-47a9-4e96-8a87-93756d4df2d8" class="page sans">
+  <header>
+    <h1 class="page-title">검색결과</h1></header>
+  <div class="page-body">
+    검색결과 :
+    <table>
+<thead>
+<tr>
+<th>{{ index[0] }}</th><th>{{ index[1] }}</th><th>{{ index[2] }}</th><th>{{ index[3] }}</th><th>{{ index[4] }}</th><th>{{ index[5] }}</th>
+</tr>
+</thead>
+	<tbody>
+    {% for i in range(0, num)  %}
+	<tr>
+         <td>{{sigugunlist[i]}} </td><td>{{jangsolist[i]}}</td><td> {{sangholist[i]}} </td><td>{{addresslist[i]}} </td><td>{{nochullist[i]}}</td><td> {{ sodoklist[i] }}</td> </br>
+	</tr>
+    {% endfor %}
+    
+</tbody>
+</table> 
+   
+    <p><button><a href="/">뒤로가기</a> </button> </p>
+  </div>
 </article>
 </body>
 </html>
