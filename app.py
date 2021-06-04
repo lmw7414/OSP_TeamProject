@@ -225,44 +225,70 @@ def find_news():
 
 
 #대전
+#대전
 @app.route('/daejeon_path')
-def daejeon_path():
-	target_url = 'https://www.daejeon.go.kr/corona19/index.do?menuId=0008'
-	html = ur.urlopen(target_url).read()
-	soup = bs(html, 'html.parser')
-	thead = soup.find('table', {'class':'corona'}).find_all('th')
-	theadList = []
-	for i in range(len(thead)):
-		if i == 6:
-			continue
-		theadList.append(thead[i].get_text())
-		#print(theadList)
-	tbody = soup.find('tbody')
-	trs = tbody.find_all('tr')
-	cnt = 0
-	trList=[]
-	for tr in trs:
-		cnt += 1
-		#print(cnt , tr.get_text().replace('\n','  '))
-		trList.insert(cnt-1,tr.get_text().rstrip('\n\n').lstrip().replace('\n',' ').replace(u'\xa0',u'').split('  '))
-	#print()
-	#print(trList)
-	sigungu = []
-	jangso=[]
-	sangho=[]
-	address=[]
-	nochul = []
-	sodok=[]
-	for i in trList:
-		if len(i) ==6:
-			sigungu.append(i[0])
-			jangso.append(i[1])
-			sangho.append(i[2])
-			address.append(i[3])
-			nochul.append(i[4])
-			sodok.append(i[5])
-	return render_template('/daejeon_path.html', num = int(len(sigungu)), index = theadList, sigugunlist=sigungu, jangsolist=jangso, sangholist=sangho, addresslist=address,nochullist=nochul,sodoklist=sodok)
+def path_daejeon2():
+    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+    
+    target_url = 'https://www.daejeon.go.kr/corona19/index.do?menuId=0008'
+    html = ur.urlopen(target_url).read()
+    soup = bs(html, 'html.parser')
 
+    thead = soup.find('table', {'class':'corona'}).find_all('th')
+    theadList = []
+    for i in range(len(thead)):
+        if i == 6:
+            continue
+        theadList.append(thead[i].get_text().replace('\n','')) #theadList는 '비고'를 없앤 상태. len = 6
+
+    #print(theadList)
+
+
+    daejeon_all = soup.find('tbody').get_text().replace(u'\xa0',u'').lstrip()
+    #print(daejeon_all)
+    daejeon_split = daejeon_all.split("\n\n\n\n")
+    #print(daejeon_split)
+    #print(len(daejeon_split))
+    #print()
+
+    pd.options.display.max_columns = None
+    pd.options.display.max_rows = None
+
+    daejeon_path = pd.DataFrame(columns = theadList)
+
+    for i in range(0,len(daejeon_split)):
+        split = daejeon_split[i].split("\n\n")
+        #print(i)
+        #print(len(split))
+        #print(split)
+        #print()
+
+        content = []
+        newcontent=[]
+        for j in range(len(split)):
+            if split[j]=='':
+                continue
+            else:
+                content.append(split[j])
+        #print(len(content))
+        #print(content)
+        #print()
+        if len(content) != 6:
+            continue
+        else:
+            newcontent = content
+        #print(len(newcontent))
+        #print(newcontent)
+        #print()
+        daejeon_path.loc[len(daejeon_path)] = newcontent
+
+    #print(daejeon_path)
+
+    path = daejeon_path.to_html(justify='center', index=False)
+    with open('templates/path_daejeon.html', 'w') as f:
+        f.write(html_string.format(city="대전광역시", style_1=style_1, style_2=style_2, path=path))
+
+    return render_template('path_daejeon.html')
 
 #민우
 @app.route('/find_word')
