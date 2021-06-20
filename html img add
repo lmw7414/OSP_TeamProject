@@ -75,9 +75,9 @@ left:1640px;
 
 .my-button{
 position: absolute;
-left:1170px; top:1830px;
+left:1190px; top:1830px;
    background: light-gray;
-   width: 360;
+   width: 440;
    height: 200;
    border-color: rgb(200,197,197);
    border-width: 8px;
@@ -88,7 +88,7 @@ display:inline-block;
 cursor:pointer;
 border-radius: 10px;
 position: absolute;
-left:145px; top:110px;
+left:180px; top:110px;
 }
 .button:active{
 background-color: rgb(193,156,231);
@@ -109,7 +109,7 @@ left:255px; top:855px;
 
 .price_index{
 position: absolute;
-left:330px; top:1250px;
+left:250px; top:1250px;
 border-color: gray;
 border-width: 3px;
 border-style: solid;
@@ -117,7 +117,7 @@ border-style: solid;
 
 .product1{
 position: absolute;
-left:330px; top:1520px;
+left:250px; top:1520px;
 border-color: gray;
 border-width: 3px;
 border-style: solid;
@@ -125,7 +125,7 @@ border-style: solid;
 
 .product2{
 position: absolute;
-left:740px; top:1520px;
+left:718px; top:1520px;
 border-color: gray;
 border-width: 3px;
 border-style: solid;
@@ -133,7 +133,7 @@ border-style: solid;
 
 .product3{
 position: absolute;
-left:1150px; top:1520px;
+left:1186px; top:1520px;
 border-color: gray;
 border-width: 3px;
 border-style: solid;
@@ -141,7 +141,7 @@ border-style: solid;
 
 .path{
 position: absolute;
-left:330px; top:1030px;
+left:250px; top:1030px;
 border-color: gray;
 border-width: 3px;
 border-style: solid;
@@ -324,23 +324,23 @@ top:1875px;
   </div>
 
   <div class="price_index">
-   <img src="images" alt="소비자 물가 지수" width="1230" height="250">
+   <img src="images" alt="소비자 물가 지수" width="1398" height="250">
   </div>
 
   <div class="product1">
-   <img src="images" alt="코로나 관련 상품 TOP1" width="410" height="300">
+   <img src="images" alt="코로나 관련 상품 TOP1" width="463" height="300">
   </div>
 
   <div class="product2">
-   <img src="images" alt="코로나 관련 상품 TOP2" width="410" height="300">
+   <img src="images" alt="코로나 관련 상품 TOP2" width="463" height="300">
   </div>
 
   <div class="product3">
-   <img src="images" alt="코로나 관련 상품 TOP3" width="410" height="300">
+   <img src="images" alt="코로나 관련 상품 TOP3" width="463" height="300">
   </div>
 
   <div class="path">
-   <img src="images" alt="코로나 확진 상세 경로" width="1230" height="200">
+   <img src="images" alt="코로나 확진 상세 경로" width="1398" height="200">
   </div>
 <div class="imagebox">
 <img src= "https://i.pinimg.com/originals/9d/c2/ed/9dc2ed4d44d49e662d37e75c73dc9f79.png" style=" width: 850px ">
@@ -349,8 +349,8 @@ top:1875px;
 
   <div class = "my-button">
   <h2 style = "font-size=x-large" >
-    &nbsp &nbsp &nbsp 나의 코로나 방역 수칙
-      <br>&nbsp &nbsp &nbsp &nbsp 점수 알아보러 가기
+    &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp 나의 코로나 방역 수칙
+      <br>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp 점수 알아보러 가기
     </h2>
     <div class = "location">
         <button class = "button" id="myButton" class="float-left submit-button">
