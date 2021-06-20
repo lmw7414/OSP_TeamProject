@@ -1,0 +1,179 @@
+<html>
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>about corona</title>
+  <style>
+
+     ul{
+   list-style-type:none;
+   position: fixed;
+    left:20px; top:50px;
+
+
+
+}
+
+.navi > li{
+   float: left;
+
+
+}
+
+.navi > li > a{
+   padding: 10px 170px;
+   background:rgb(219,193,193)
+
+}
+
+li a{
+   background-color: #39f;
+    text-decoration: none;
+    font-weight: bold;
+    color: #000000;
+    display: block;
+    text-align: center;
+    padding: 10px;
+    background:rgb(219,193,193)
+
+
+}
+
+li a:hover{
+   background-color:light-gray;
+   color: white;
+}
+
+.navi li ul{   /* << li 하위의 ul = 서브메뉴 */
+   display: none;
+}
+
+.navi li:hover ul{
+   display: block;
+}
+
+  table.fixed{position: fixed; 
+left:1480px; top:160px;
+border-style:solid;
+border-color:white;
+
+}
+th{background: rgb(235,236,237);
+border-style:solid;
+border-color:gray;
+}
+td{
+border-style:solid;
+border-color:gray;
+}
+
+.search{position:absolute;
+ top:45px; left:1445px;
+}
+
+.block-color-gray_background {
+   background: rgb(235,236,237);
+             width: 385;
+
+}
+.location{
+position:fixed;
+left:1640px;
+}
+
+.my-button{position: fixed;
+left:1485px; top:730px;
+   background: light-gray;
+   width: 360;
+   height: 200;
+   border-color: rgb(200,197,197);
+   border-width: 8px;
+   border-style: ridge;
+}
+.button{
+display:inline-block;
+cursor:pointer;
+border-radius: 10px;
+}
+.button:active{
+background-color: rgb(193,156,231);
+box-shadow:0 5px #666;
+transform: translateY(4px);
+}
+
+
+
+  </style>
+     <link rel="stylesheet" href="button.css">
+
+     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+ </head>
+
+ <body>
+  <p style="text-align:center;">
+  <span style="background: linear-gradient(to right, #ffa7a3, #5673bd);
+   padding: 0.6em 33em;
+   font-style: oblique;
+   font-weight: bolder;
+   font-size: x-large;
+   border-radius: 3px; 
+   color: #ffffff;">
+   ABOUT &nbsp COVID - 19
+   </span>
+  </p>
+
+      <ul class="navi">
+        <li><a href="#">1</a></li>
+        <li><a href="#">2</a></li>
+        <li><a href="#">3</a></li>
+        <li><a href="#">4</a></li>
+    </ul>
+
+<div class="search">
+
+<figure class="block-color-gray_background callout"
+ style="white-space:pre-wrap;display:flex" id="83b4f705-294d-4d13-bf59-7f165430047d">
+<div style="font-size:2em">
+<span class="icon">💡</span>
+
+</div>
+<div style="width:50%">
+NEWS 검색<input type="text" class="input-search" size="40">
+<input type="submit" class= "input-search-submit" value="search" >
+</div>
+</figure>
+</div>
+
+<div class = "my-button">
+  <h2 style = "font-size=x-large" >
+    &nbsp &nbsp &nbsp 나의 코로나 방역 수칙
+      <br>&nbsp &nbsp &nbsp &nbsp 점수 알아보러 가기
+    </h2>
+    <div class = "location">
+<button class = "button">
+    <h2 style = "font-size=large" >
+    QUIZ
+    </h2>
+</button>
+        </div>
+</div>
+  
+  <table width="390" height="560" class="fixed">
+   <div id="line">
+   <th height="60">about corona NEWS</th>
+   <tr>
+          <td> 첫번째 </td>
+   </tr>
+   <tr>
+            <td> 두번째 </td>
+   </tr>
+   <tr>
+          <td> 세번째 </td>
+   </tr>
+   <tr>
+            <td> 네번째 </td>
+   </tr>
+   </div>
+  </table>
+  
+ </body>
+</html>
