@@ -47,10 +47,22 @@ from flask import render_template
 from flask import request
 from bs4 import BeautifulSoup as bs
 from urllib import parse
-import pandas as pd
 import urllib.request as ur
 from flask import jsonify
 import urllib3
+
+# _for graph_
+import pandas as pd
+import matplotlib
+import matplotlib.font_manager as fm
+import matplotlib.pyplot as plt
+import numpy as np
+
+#path = '/usr/share/fonts/truetype/nanum/NanumBarunGothic.ttf'
+#fontprop = fm.FontProperties(fname=path, size=20)
+#print(fontprop)
+plt.rcParams['font.family'] = 'NanumGothicCoding'
+
 
 app = Flask(__name__)
 
@@ -74,8 +86,8 @@ def path_daegu():
     
     daegu_path = pd.DataFrame(columns=index)
     for i in range(1,len(daegu_split)):
-        content = daegu_split[i].split("\n\n")
-        # print(content)
+        content = daegu_split[i].split("\n\n")    
+        #print(content)
         daegu_path.loc[len(daegu_path)] = content
 
     path = daegu_path.to_html(justify='center', index=False)
@@ -144,8 +156,149 @@ def path_pohang():
         f.write(html_string.format(city="포항시", style_1=style_1, style_2=style_2, path=path))
 
     return render_template('path_pohang.html')
-# ----서현 추가----
+# ----서현 추가1----
 
+# 서현2
+@app.route('/index')
+def index_graph():
+	# ###_고용관련_
+	고용 = pd.read_csv("data/고용.csv")
+	고용['연월'] = 고용['연월'].astype(str)
+	#print(고용.head())
+	취업자 = 고용[고용['유형별'] == '취업자'].reset_index().drop(['index', '유형별'], axis=1)
+	실업자 = 고용[고용['유형별'] == '실업자'].reset_index().drop(['index', '유형별'], axis=1)
+	실업률 = 고용[고용['유형별'] == '실업률'].reset_index().drop(['index', '유형별'], axis=1)
+	고용률 = 고용[고용['유형별'] == '고용률'].reset_index().drop(['index', '유형별'], axis=1)
+
+	# ### _취업자 및 고용률 추이_
+	fig1 = plt.figure(figsize=(20, 10))
+	ax1_1 = fig1.add_subplot()
+	ax1_1.plot(list(고용률['연월'][12:]), list(고용률['15세이상'][12:]), 
+		 color='dodgerblue', label='15세이상고용률', linewidth=3
+		)
+	ax1_1.set_ylim([50, 70])
+	ax1_1.tick_params(axis='y', labelsize=20)
+	ax1_1.set_ylabel('고용률(%)', fontsize=18)
+	ax1_1.set_xticklabels(고용률['연월'], fontsize=20, rotation=45)
+	ax1_1.plot(list(고용률['연월'][12:]), list(고용률['15-64세'][12:]), 
+		 color='skyblue', label='15-64세 고용률', linewidth=3)
+	ax1_1.legend(loc='upper left', ncol=2, fontsize=20)
+
+	ax1_2 = ax1_1.twinx()
+	ax1_2.bar(list(취업자['연월'][12:]), list(취업자['15세이상'][12:]), color='gray', label='취업자', align='center')
+	ax1_2.set_ylim([25000, 30000])
+	ax1_2.tick_params(axis='y', labelsize=20)
+	ax1_2.set_ylabel('취업자(천명)', fontsize=18)
+	ax1_2.legend(['취업자'], loc='upper right', fontsize=20)
+
+	plt.xticks(ticks=취업자['연월'][12:], labels=취업자['연월'][12:], rotation=45, fontsize=20)
+	plt.locator_params(axis='x', nbins=len(취업자['연월'][12:])/4)
+	plt.title('취업자 및 고용률 추이\n', fontsize=20)
+
+	fig1.savefig('static/graph/employed.png')
+
+	# ### _실업자 및 실업률 추이_
+	fig2 = plt.figure(figsize=(20, 10))
+
+	ax2_1 = fig2.add_subplot()
+	ax2_1.plot(list(실업률['연월'][12:]), list(실업률['15세이상'][12:]), 
+		 color='coral', label='실업률', linewidth=3)
+	ax2_1.set_ylim([0, 6])
+	ax2_1.tick_params(axis='y', labelsize=20)
+	ax2_1.set_ylabel('실업률(%)', fontsize=18)
+	ax2_1.set_xticklabels(실업률['연월'][12:], fontsize=20, rotation=45)
+	ax2_1.legend(['실업률'], loc='upper left', fontsize=20)
+
+	ax2_2 = ax2_1.twinx()
+	ax2_2.bar(list(실업자['연월'][12:]), list(실업자['15세이상'][12:]), color='gray', label='실업자', align='center')
+	ax2_2.set_ylim([500, 1700])
+	ax2_2.tick_params(axis='y', labelsize=20)
+	ax2_2.set_ylabel('실업자(천명)', fontsize=18)
+	ax2_2.legend(['실업자'], loc='upper right', fontsize=20)
+
+	plt.xticks(ticks=실업자['연월'][12:], labels=실업자['연월'][12:], rotation=45, fontsize=20)
+	plt.locator_params(axis='x', nbins=len(실업자['연월'][12:])/4)
+	plt.title('실업자 및 실업률 추이\n', fontsize=20)
+	#plt.show()
+
+	fig2.savefig('static/graph/unemployed.png')
+		
+
+	# ### __온라인 쇼핑__
+	온라인쇼핑 = pd.read_csv("data/온라인쇼핑.csv")
+	온라인쇼핑['연월'] = 온라인쇼핑['연월'].astype(str)
+	온라인쇼핑['합계'] = 온라인쇼핑['합계']/100
+	#온라인쇼핑.head()
+
+	#print(min(온라인쇼핑['합계']))
+	#print(max(온라인쇼핑['합계']))
+
+	# ## _온라인 쇼핑 동향_
+
+	fig3 = plt.figure(figsize=(20, 10))
+	ax3_1 = fig3.add_subplot()
+	ax3_1.bar(list(온라인쇼핑['연월']), list(온라인쇼핑['합계']), color='lightgray', label='거래액', align='center')
+	ax3_1.set_ylim([20000, 180000])
+	ax3_1.tick_params(axis='y', labelsize=20)
+	ax3_1.set_ylabel('거래액(억원)', fontsize=18)
+	ax3_1.set_xticklabels(온라인쇼핑['연월'], fontsize=20, rotation=45)
+	ax3_1.legend(['온라인쇼핑거래액'], loc='upper left', fontsize=20)
+
+	ax3_2 = ax3_1.twinx()
+	ax3_2.plot(list(온라인쇼핑['연월']), list(온라인쇼핑['전년동월비']), 
+		 color='indigo', label='전년동월비', linewidth=3.5)
+	ax3_2.set_ylim([0, 50])
+	ax3_2.tick_params(axis='y', labelsize=20)
+	ax3_2.set_xlabel('월별', fontsize=20)
+	ax3_2.set_ylabel('비율(%)', fontsize=18)
+	ax3_2.legend(['전년동월비'], loc='upper right', fontsize=20)
+
+	plt.xticks(ticks=온라인쇼핑['연월'], labels=온라인쇼핑['연월'], rotation=45, fontsize=20)
+	plt.locator_params(axis='x', nbins=len(온라인쇼핑['연월'])/2)
+	plt.title('온라인 쇼핑 동향\n', fontsize=20)
+	#plt.show()
+
+	fig3.savefig('static/graph/online_shopping.png')
+
+	# ### __소비자물가지수__
+	소비자물가지수 = pd.read_csv("data/물가.csv")
+	소비자물가지수 = pd.DataFrame(소비자물가지수.transpose())
+	소비자물가지수.columns = 소비자물가지수.loc['품목성질별', :]
+	소비자물가지수 = 소비자물가지수.drop(['품목성질별'])
+	#소비자물가지수.head()
+
+	월별 = list(소비자물가지수.index)
+	전월비 = list(소비자물가지수.loc[:, "전월비"])
+	전년동월비 = list(소비자물가지수.loc[:, "전년동월비"])
+
+	fig4 = plt.figure(figsize=(20, 10))
+
+	ax4_1 = fig4.add_subplot()
+	ax4_1.plot(월별, 전년동월비, color='coral', label='전년동월비', linewidth=3)
+	ax4_1.set_ylim([-4, 6])
+	ax4_1.tick_params(axis='y', labelsize=20)
+	ax4_1.set_xlabel('Month', fontsize=20)
+	ax4_1.set_ylabel('전년동월비(%)', fontsize=22)
+	ax4_1.legend(['전년동월비'], loc='upper left', fontsize=20)
+	ax4_1.set_xticklabels(월별, fontsize=20, rotation=45)
+
+	ax4_2 = ax4_1.twinx()
+	ax4_2.bar(월별, 전월비, color='gray', label='전월비', align='edge')
+	ax4_2.set_ylim([-2, 3])
+	ax4_2.tick_params(axis='y', labelsize=20)
+	ax4_2.set_ylabel('전월비(%)', fontsize=22)
+	ax4_2.legend(['전월비'], loc='upper right', fontsize=20)
+
+	plt.xticks(ticks=월별, labels=월별, rotation=45, fontsize=20)
+	plt.locator_params(axis='x', nbins=len(월별)/4)
+	plt.title('소비자물가동향\n', fontsize=20)
+	#plt.show()
+
+	fig4.savefig('static/graph/price.png')
+
+	# ###__html__
+	return render_template('index.html')
+#----서현2 fin----
 
 @app.route('/corona_product_list')
 def corona_product_list():
