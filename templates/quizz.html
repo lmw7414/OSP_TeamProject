@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>quiz about covid-19</title>
+    <meta charset="utf-8">
+    <style>
+#box1 {
+text-align: center;
+}
+.box2 {
+position: absolute;
+left: 535px;
+width: 900px;
+height: 2200px;
+background-color: white;
+}
+
+body {
+background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNsXMfdbPz-BBWSOVGGzRi1KGVpCzbTCENfw&usqp=CAU');
+}
+    </style>
+</head>
+<body>
+
+<script>
+function showResults() {
+  var numRight = 0;
+  if (document.exf1.q1[document.exf1.q1r.value].checked) numRight++;
+  if (document.exf1.q2[document.exf1.q2r.value].checked) numRight++;
+  if (document.exf1.q3[document.exf1.q3r.value].checked) numRight++;
+  if (document.exf1.q4[document.exf1.q4r.value].checked) numRight++;
+  if (document.exf1.q5[document.exf1.q5r.value].checked) numRight++;
+  document.exf1.score.value = numRight;
+}
+function init() {
+document.exf1.score.value = "";
+}
+</script>
+
+<form name=exf1>
+
+    <div id="box1">
+<div class="box2">
+<br>
+        <br>
+<h2>[문제1] '감염병 세계적 유행'이라는 의미를 가지며, <br> <br>현재 코로나 경보 상태를 의미하는 용어는?</h2><br>
+    <h2><input type=radio name=q1 value="A" onfocus="init()">1. 에피데믹
+    <input type=radio name=q1 value="B" onfocus="init()">2. 페스트
+    <input type=radio name=q1 value="C" onfocus="init()">3. 엔데믹
+    <input type=radio name=q1 value="D" onfocus="init()">4. 팬데믹
+        <input type=radio name=q1 value="E" onfocus="init()">5. 신드롬</h2>>
+      <input type=hidden name=q1r value="3">
+<br>
+        <b><h1 style= color:#006899 > - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</h1></b>
+        <br>
+<h2>[문제 2] 다음 선택지 중 질병관리본부에서 실시한<br><br> 시설별 감염 위험도 평가에 기반하여<br><br> 고위험 시설로 판정난 것은?</h2><br>
+    <h2><input type=radio name=q2 value="A" onfocus="init()">1. 노래방
+    <input type=radio name=q2 value="B" onfocus="init()">2. 실내체육시설
+    <input type=radio name=q2 value="C" onfocus="init()">3. 결혼식장
+    <input type=radio name=q2 value="D" onfocus="init()">4. 공원
+        <input type=radio name=q2 value="E" onfocus="init()">5. 종교시설</h2>>
+      <input type=hidden name=q2r value="0">
+<br>
+       <b><h1 style= color:#006899 > - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</h1></b>
+        <br>
+<h2>[문제 3] 코로나 바이러스의 잠복기로 옳은 것은?</h2><br>
+    <h2><input type=radio name=q3 value="A" onfocus="init()">1. 1-3일
+    <input type=radio name=q3 value="B" onfocus="init()">2. 1-7일
+    <input type=radio name=q3 value="C" onfocus="init()">3. 1-14일
+    <input type=radio name=q3 value="D" onfocus="init()">4. 1-20일
+        <input type=radio name=q3 value="E" onfocus="init()">5. 잠복기는 없다</h2>>
+      <input type=hidden name=q3r value="2">
+<br>
+        <b><h1 style= color:#006899 > - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</h1></b>
+<br>
+        <h2>[문제 4] 코로나 바이러스 감염에 의해 <br> <br>나타날 수 있는 증상으로 옳지 않은 것은?</h2><br>
+    <h2><input type=radio name=q4 value="A" onfocus="init()">1. 발열
+    <input type=radio name=q4 value="B" onfocus="init()">2. 권태감
+    <input type=radio name=q4 value="C" onfocus="init()">3. 후각상실
+    <input type=radio name=q4 value="D" onfocus="init()">4. 두통
+        <input type=radio name=q4 value="E" onfocus="init()">5. 분노조절장애</h2>>
+      <input type=hidden name=q4r value="4">
+<br>
+         <b><h1 style= color:#006899 > - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</h1></b>
+<br>
+<h2>[문제 5] 코로나 바이러스의 감염경로로 옳지 않은 것은?</h2><br>
+    <h2><input type=radio name=q5 value="A" onfocus="init()">1. 비말을 통한 전파
+    <input type=radio name=q5 value="B" onfocus="init()">2. 접촉을 통한 전파 <br><br>
+    <input type=radio name=q5 value="C" onfocus="init()">3. 바이러스가 묻은 물건 만진 뒤 눈 만지기<br><br>
+    <input type=radio name=q5 value="D" onfocus="init()">4. 전화및 문자를 통한 전파
+        <input type=radio name=q5 value="E" onfocus="init()">5. 기침을 통한 전파</h2>>
+      <input type=hidden name=q5r value="3">
+<br>
+        <b><h1 style= color:#006899 > - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</h1></b>
+        <br>
+
+<input type=button value="점수확인" style="border:1px white;
+ padding:30px 60px; background-color: #feaf61;
+  border-radius:10 px;
+   font-size: 30px; color:white;" onclick="showResults()">
+
+<br><br>
+
+<h2>[ 귀하의 점수는 <input type=text name=score value="" style=width:30;> 점 입니다. ]</h2>
+</div>
+
+    </div>
+</form>
+
+</body>
+</html>
