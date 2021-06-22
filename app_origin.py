@@ -15,7 +15,6 @@ table, th, td{style_2}
 <body>
 {path}
 </body>
-<button type="button" class="navyBtn" onClick="location.href='/path'">돌아가기</button>
 </html>
 '''
 style_1 = '''
@@ -48,22 +47,10 @@ from flask import render_template
 from flask import request
 from bs4 import BeautifulSoup as bs
 from urllib import parse
+import pandas as pd
 import urllib.request as ur
 from flask import jsonify
 import urllib3
-
-# _for graph_
-import pandas as pd
-import matplotlib
-import matplotlib.font_manager as fm
-import matplotlib.pyplot as plt
-import numpy as np
-
-#path = '/usr/share/fonts/truetype/nanum/NanumBarunGothic.ttf'
-#fontprop = fm.FontProperties(fname=path, size=20)
-#print(fontprop)
-plt.rcParams['font.family'] = 'NanumGothicCoding'
-
 
 app = Flask(__name__)
 
@@ -157,263 +144,108 @@ def path_pohang():
         f.write(html_string.format(city="포항시", style_1=style_1, style_2=style_2, path=path))
 
     return render_template('path_pohang.html')
-# ----서현 추가1----
+# ----서현 추가----
 
-# 서현2
-@app.route('/index')
-def index_graph():
-	# ###_고용관련_
-	고용 = pd.read_csv("data/고용.csv")
-	고용['연월'] = 고용['연월'].astype(str)
-	#print(고용.head())
-	취업자 = 고용[고용['유형별'] == '취업자'].reset_index().drop(['index', '유형별'], axis=1)
-	실업자 = 고용[고용['유형별'] == '실업자'].reset_index().drop(['index', '유형별'], axis=1)
-	실업률 = 고용[고용['유형별'] == '실업률'].reset_index().drop(['index', '유형별'], axis=1)
-	고용률 = 고용[고용['유형별'] == '고용률'].reset_index().drop(['index', '유형별'], axis=1)
-
-	# ### _취업자 및 고용률 추이_
-	fig1 = plt.figure(figsize=(20, 10))
-	ax1_1 = fig1.add_subplot()
-	ax1_1.plot(list(고용률['연월'][12:]), list(고용률['15세이상'][12:]), 
-		 color='dodgerblue', label='15세이상고용률', linewidth=3
-		)
-	ax1_1.set_ylim([50, 70])
-	ax1_1.tick_params(axis='y', labelsize=20)
-	ax1_1.set_ylabel('고용률(%)', fontsize=18)
-	ax1_1.set_xticklabels(고용률['연월'], fontsize=20, rotation=45)
-	ax1_1.plot(list(고용률['연월'][12:]), list(고용률['15-64세'][12:]), 
-		 color='skyblue', label='15-64세 고용률', linewidth=3)
-	ax1_1.legend(loc='upper left', ncol=2, fontsize=20)
-
-	ax1_2 = ax1_1.twinx()
-	ax1_2.bar(list(취업자['연월'][12:]), list(취업자['15세이상'][12:]), color='gray', label='취업자', align='center')
-	ax1_2.set_ylim([25000, 30000])
-	ax1_2.tick_params(axis='y', labelsize=20)
-	ax1_2.set_ylabel('취업자(천명)', fontsize=18)
-	ax1_2.legend(['취업자'], loc='upper right', fontsize=20)
-
-	plt.xticks(ticks=취업자['연월'][12:], labels=취업자['연월'][12:], rotation=45, fontsize=20)
-	plt.locator_params(axis='x', nbins=len(취업자['연월'][12:])/4)
-	plt.title('취업자 및 고용률 추이\n', fontsize=20)
-
-	fig1.savefig('static/graph/employed.png')
-
-	# ### _실업자 및 실업률 추이_
-	fig2 = plt.figure(figsize=(20, 10))
-
-	ax2_1 = fig2.add_subplot()
-	ax2_1.plot(list(실업률['연월'][12:]), list(실업률['15세이상'][12:]), 
-		 color='coral', label='실업률', linewidth=3)
-	ax2_1.set_ylim([0, 6])
-	ax2_1.tick_params(axis='y', labelsize=20)
-	ax2_1.set_ylabel('실업률(%)', fontsize=18)
-	ax2_1.set_xticklabels(실업률['연월'][12:], fontsize=20, rotation=45)
-	ax2_1.legend(['실업률'], loc='upper left', fontsize=20)
-
-	ax2_2 = ax2_1.twinx()
-	ax2_2.bar(list(실업자['연월'][12:]), list(실업자['15세이상'][12:]), color='gray', label='실업자', align='center')
-	ax2_2.set_ylim([500, 1700])
-	ax2_2.tick_params(axis='y', labelsize=20)
-	ax2_2.set_ylabel('실업자(천명)', fontsize=18)
-	ax2_2.legend(['실업자'], loc='upper right', fontsize=20)
-
-	plt.xticks(ticks=실업자['연월'][12:], labels=실업자['연월'][12:], rotation=45, fontsize=20)
-	plt.locator_params(axis='x', nbins=len(실업자['연월'][12:])/4)
-	plt.title('실업자 및 실업률 추이\n', fontsize=20)
-	#plt.show()
-
-	fig2.savefig('static/graph/unemployed.png')
-		
-
-	# ### __온라인 쇼핑__
-	온라인쇼핑 = pd.read_csv("data/온라인쇼핑.csv")
-	온라인쇼핑['연월'] = 온라인쇼핑['연월'].astype(str)
-	온라인쇼핑['합계'] = 온라인쇼핑['합계']/100
-	#온라인쇼핑.head()
-
-	#print(min(온라인쇼핑['합계']))
-	#print(max(온라인쇼핑['합계']))
-
-	# ## _온라인 쇼핑 동향_
-
-	fig3 = plt.figure(figsize=(20, 10))
-	ax3_1 = fig3.add_subplot()
-	ax3_1.bar(list(온라인쇼핑['연월']), list(온라인쇼핑['합계']), color='lightgray', label='거래액', align='center')
-	ax3_1.set_ylim([20000, 180000])
-	ax3_1.tick_params(axis='y', labelsize=20)
-	ax3_1.set_ylabel('거래액(억원)', fontsize=18)
-	ax3_1.set_xticklabels(온라인쇼핑['연월'], fontsize=20, rotation=45)
-	ax3_1.legend(['온라인쇼핑거래액'], loc='upper left', fontsize=20)
-
-	ax3_2 = ax3_1.twinx()
-	ax3_2.plot(list(온라인쇼핑['연월']), list(온라인쇼핑['전년동월비']), 
-		 color='indigo', label='전년동월비', linewidth=3.5)
-	ax3_2.set_ylim([0, 50])
-	ax3_2.tick_params(axis='y', labelsize=20)
-	ax3_2.set_xlabel('월별', fontsize=20)
-	ax3_2.set_ylabel('비율(%)', fontsize=18)
-	ax3_2.legend(['전년동월비'], loc='upper right', fontsize=20)
-
-	plt.xticks(ticks=온라인쇼핑['연월'], labels=온라인쇼핑['연월'], rotation=45, fontsize=20)
-	plt.locator_params(axis='x', nbins=len(온라인쇼핑['연월'])/2)
-	plt.title('온라인 쇼핑 동향\n', fontsize=20)
-	#plt.show()
-
-	fig3.savefig('static/graph/online_shopping.png')
-
-	# ### __소비자물가지수__
-	소비자물가지수 = pd.read_csv("data/물가.csv")
-	소비자물가지수 = pd.DataFrame(소비자물가지수.transpose())
-	소비자물가지수.columns = 소비자물가지수.loc['품목성질별', :]
-	소비자물가지수 = 소비자물가지수.drop(['품목성질별'])
-	#소비자물가지수.head()
-
-	월별 = list(소비자물가지수.index)
-	전월비 = list(소비자물가지수.loc[:, "전월비"])
-	전년동월비 = list(소비자물가지수.loc[:, "전년동월비"])
-
-	fig4 = plt.figure(figsize=(20, 10))
-
-	ax4_1 = fig4.add_subplot()
-	ax4_1.plot(월별, 전년동월비, color='coral', label='전년동월비', linewidth=3)
-	ax4_1.set_ylim([-4, 6])
-	ax4_1.tick_params(axis='y', labelsize=20)
-	ax4_1.set_xlabel('Month', fontsize=20)
-	ax4_1.set_ylabel('전년동월비(%)', fontsize=22)
-	ax4_1.legend(['전년동월비'], loc='upper left', fontsize=20)
-	ax4_1.set_xticklabels(월별, fontsize=20, rotation=45)
-
-	ax4_2 = ax4_1.twinx()
-	ax4_2.bar(월별, 전월비, color='gray', label='전월비', align='edge')
-	ax4_2.set_ylim([-2, 3])
-	ax4_2.tick_params(axis='y', labelsize=20)
-	ax4_2.set_ylabel('전월비(%)', fontsize=22)
-	ax4_2.legend(['전월비'], loc='upper right', fontsize=20)
-
-	plt.xticks(ticks=월별, labels=월별, rotation=45, fontsize=20)
-	plt.locator_params(axis='x', nbins=len(월별)/4)
-	plt.title('소비자물가동향\n', fontsize=20)
-	#plt.show()
-
-	fig4.savefig('static/graph/price.png')
-
-	# ###__html__
-	return render_template('index.html')
-#----서현2 fin----
 
 @app.route('/corona_product_list')
 def corona_product_list():
-	product1_list=[]
-	product2_list=[]
-	product3_list=[]
 	###마스크
 	target_url1 = 'https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=1&ie=utf8&query=%EB%A7%88%EC%8A%A4%ED%81%AC'
 	html1 = ur.urlopen(target_url1).read()
 	soup1 = bs(html1, 'html.parser')
-	
-	product1 = soup1.select_one('div.product_info > a')
-	
+
+	product1 = soup1.select_one('div.shop_product.type_ad.v1.api_ani_send > a')
+	#print(product1['href'])
 	product1_href = product1['href']  #구매링크
-	#print(product1_href)
-	product1_list.append(product1_href)
-	pic1 = soup1.select('a.thumb > img')
-	pic1_url = pic1[0]['src']
-	#picList1 = []
-	#for pic1 in pic1:
-	#	picList1.append(pic1['src'])
+
+	pic1 = soup1.select('div.shop_product.type_ad.v1.api_ani_send > a > img')
+	picList1 = []
+	for pic1 in pic1:
+		picList1.append(pic1['src'])
 	#print(picList1[0])
-	#pic1_url = pic1 #사진링크
-	product1_list.append(pic1_url)
+	pic1_url = picList1[0] #사진링크
 
 	title1 = soup1.select_one('div.product_info > a')
 	#print(title1.text)
 	title1 = title1.text #상품명
-	product1_list.append(title1)
 
 	price1 = soup1.select_one('div.product_info > div.price_area > div.price')
 	#print(price1.text)
 	price1 = price1.text #상품가격
-	product1_list.append(price1)
 
 	store1 = soup1.select_one('div.elss.store > a')
 	#print(store1.text)
 	store1 = store1.text #판매처
-	product1_list.append(store1)
 
 	###손소독제
 	target_url2 = 'https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=1&ie=utf8&query=%EC%86%90%EC%86%8C%EB%8F%85%EC%A0%9C'
 	html2 = ur.urlopen(target_url2).read()
 	soup2 = bs(html2, 'html.parser')
 
-	product2 = soup2.select_one('div.product_info > a')
+	product2 = soup2.select_one('div.shop_product.type_ad.v1.api_ani_send > a')
 	#print(product2['href'])
 	product2_href = product2['href']  #구매링크
-	product2_list.append(product2_href)
 
-	pic2 = soup2.select('a.thumb > img')
-	pic2_url = pic2[0]['src']
-	#picList2 = []
-	#for pic2 in pic2:
-	#	picList2.append(pic2['src'])
+	pic2 = soup2.select('div.shop_product.type_ad.v1.api_ani_send > a > img')
+	picList2 = []
+	for pic2 in pic2:
+		picList2.append(pic2['src'])
 	#print(picList2[0])
-	#pic2_url = pic2#사진링크
-	product2_list.append(pic2_url)
+	pic2_url = picList2[0] #사진링크
 
 	title2 = soup2.select_one('div.product_info > a')
 	#print(title2.text)
 	title2 = title2.text #상품명
-	product2_list.append(title2)
 
 	price2 = soup2.select_one('div.product_info > div.price_area > div.price')
 	#print(price2.text)
 	price2 = price2.text #상품가격
-	product2_list.append(price2)
 
 	store2 = soup2.select_one('div.elss.store > a')
 	#print(store2.text)
 	store2 = store2.text #판매처
-	product2_list.append(store2)
+
+
+
+
 
 	###코로나자가진단키트
 	target_url3 = 'https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=%EC%BD%94%EB%A1%9C%EB%82%98+%EC%9E%90%EA%B0%80%EC%A7%84%EB%8B%A8+%ED%82%A4%ED%8A%B8'
 	html3 = ur.urlopen(target_url3).read()
 	soup3 = bs(html3, 'html.parser')
 
-	product3 = soup3.select_one('div.product_info > a')
+	product3 = soup3.select_one('div.shop_product.type_ad.v1.api_ani_send > a')
 	#print(product3['href'])
 	product3_href = product3['href']  #구매링크
-	product3_list.append(product3_href)
 
-	pic3 = soup3.select('a.thumb > img')
-	#print(type(pic3))
-	#print(pic3[0])
-	#picList3 = []
-	#print(pic3[0]['src'])
-	pic3_url = pic3[0]['src'] #사진링크
-	#print(pic3_url)
-	product3_list.append(pic3_url)
+	pic3 = soup3.select('div.shop_product.type_ad.v1.api_ani_send > a > img')
+	picList3 = []
+	for pic3 in pic3:
+		picList3.append(pic3['src'])
+	#print(picList3[0])
+	pic3_url = picList3[0] #사진링크
+
 	title3 = soup3.select_one('div.product_info > a')
 	#print(title3.text)
 	title3 = title3.text #상품명
-	product3_list.append(title3)
+
 	price3 = soup3.select_one('div.product_info > div.price_area > div.price')
 	#print(price3.text)
 	price3 = price3.text #상품가격
-	product3_list.append(price3)
+
 	store3 = soup3.select_one('div.elss.store > a')
 	#print(store3.text)
 	store3 = store3.text #판매처
-	product3_list.append(store3)
-	#print(product1_list)
-	#print(product2_list)
-	#print(product3_list)
-	return product1_list, product2_list, product3_list
+
+	return render_template('corona_product_list.html',product1_href = product1_href, pic1_url = pic1_url, title1 = title1, price1 = price1, store1 = store1, product2_href = product2_href, pic2_url = pic2_url, title2 = title2, price2=price2, store2 = store2, product3_href = product3_href, pic3_url = pic3_url, title3 = title3, price3 = price3, store3 = store3)
+
 
 #주연이
 @app.route('/news_list')
-def find_news(comp, time, title, preview, titleurl, pic):
+def find_news():
 	news = 'https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=%EC%BD%94%EB%A1%9C%EB%82%98'
 	soup = bs(ur.urlopen(news).read(), 'html.parser')
+	pic =[]
 	pictures = soup.select('div.news_wrap.api_ani_send > a > img')
 	picture_num = 1
 	for picture in pictures:
@@ -423,7 +255,8 @@ def find_news(comp, time, title, preview, titleurl, pic):
 		# dload.save(img, 'picture/img{}.jpg'.format(picture_num)) # 일단은 주석처리
 		picture_num += 1  #dload.save를 이용하여 img파일을 내 프로젝트 폴더/picture폴더에 <<img숫자.jpg>>로 저장
 		#print()
-	
+	comp =[]
+	time =[]
 	infos = soup.select('div.news_area > div.news_info > div.info_group')
 	for info in infos:
 		#print(info.select_one('a').text.replace("언론사", "").replace("선정","")) #기사 언론사
@@ -437,6 +270,10 @@ def find_news(comp, time, title, preview, titleurl, pic):
 		for div_news_info in i.find_all('div',{"class":"news_info"}):
 			div_news_info.extract() #<div class="news_area"> 속 <div class="news_info">를 제거
 
+
+	title = []
+	preview = []
+	titleurl = []
 	cnt = 0
 	for i in soup.find_all('div',{"class":"news_area"}):
 		#    print(comp[cnt])
@@ -450,7 +287,7 @@ def find_news(comp, time, title, preview, titleurl, pic):
 		#    print(pic[cnt])
 		cnt += 1
 		#    print()
-	return comp, time, title, preview, titleurl, pic
+	return render_template('news_list.html',comp = comp,time = time, title = title, preview = preview, titleurl = titleurl, pic = pic)
 
 
 #대전
@@ -681,30 +518,13 @@ def busan_path():
 		f.write(html_string.format(city="부산광역시", style_1=style_1, style_2 =style_2, path=path))
 	return render_template('path_busan.html')
 
-@app.route('/path')
-def show_path():
-    return render_template("post.html")
+#@app.route('/path')
+#def show_path():
+#    return render_template("post.html")
 
 @app.route('/')
 def index():
-	comp =[]
-	pic =[]
-	time =[]
-	title = []
-	preview = []
-	titleurl = []
-	index_pic = []
-	employ_pic = []
-	online_shopping_pic = []
-	price_pic = []
-	
-	product1=[]
-	product2=[]
-	product3=[]
-	product1, product2, product3 = corona_product_list()
-	comp, time, title, preview, titleurl, pic = find_news(comp, time, title, preview, titleurl, pic)
- 	
-	return render_template("covid_web_height.html",comp=comp, time=time, title=title, preview=preview, titleurl=titleurl, pic=pic, product1 = product1, product2 = product2, product3 = product3)
+    return render_template("covid_web_height_origin.html")
 
 if __name__ == '__main__':
 	app.run()
