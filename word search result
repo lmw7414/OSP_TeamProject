@@ -1,0 +1,41 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>크롤링 결과</title>
+  <style>
+body{
+  margin: 0;
+  padding: 0;
+  background-color: #F6F0F0;
+}
+.result{
+position: absolute;
+left:400; top:100px;
+}
+.button{
+   border-radius: 10px;
+   border-color: #a4a8ab;
+   border-width: 2px;
+   border-style: ridge;
+}
+</style>
+</head>
+<body>
+<article id="9e0cda3e-47a9-4e96-8a87-93756d4df2d8" class="page sans">
+
+  <div class="result">
+     <span style = " font-size:2em;  color: #51575b; font-weight: bold">검색결과</span><br><br>
+    <span style = " font-size:1.3em;  color: #76838d; font-weight: bold">&nbsp &nbsp검색결과 : </span>
+    {{ num }}
+    <span style = " font-size:1.3em;  color: #76838d; font-weight: bold">개</span><br><br><br><br>
+
+    {% for i in range(0, num)  %}
+	<li>
+        <a href={{ href_list[i] }}>{{ i+1 }}. {{ name_list[i]  }} </a> </br></br> 
+	</li>
+    {% endfor %}
+    <br><br><button class="button"><span style = " font-size:1.2m;  color: #4b4b52; font-weight: bold href=find word2.html">뒤로 가기</span> </button>
+  </div>
+</article>
+</body>
+</html>
