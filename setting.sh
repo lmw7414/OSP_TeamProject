@@ -13,7 +13,7 @@ pip3 install pandas
 pip3 install numpy
 
 sudo apt-get install fonts-nanum*
-sudo cp /usr/share/fonts/truetype/nanum/Nanum* .local/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/
+sudo cp /usr/share/fonts/truetype/nanum/Nanum* ../.local/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/
 rm -rf /home/ubuntu/.cache/matplotlib/*
-
+./app.py
 
