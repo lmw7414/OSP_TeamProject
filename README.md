@@ -1,6 +1,6 @@
 # OSP_TeamProject
 
-about Corona
+about Covid-19
 1. 리눅스 환경에 맞도록 그리고 원활히 작동하도록 하기 위해 설치가 필요한 요소들이 있습니다.
 2. 우선 리눅스의 shell 창에 엘라스틱서치 파일이 다운될 수 있도록 아래의 명령어를 입력해주세요. 
 wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.6.2-linux-x86_64.tar.gz
